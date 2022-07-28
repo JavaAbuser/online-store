@@ -1,5 +1,6 @@
 package com.javaabuser.onlinestore.configuration;
 
+import com.javaabuser.onlinestore.services.CustomerService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
