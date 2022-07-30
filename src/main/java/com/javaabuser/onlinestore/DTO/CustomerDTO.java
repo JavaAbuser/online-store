@@ -4,11 +4,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 
-public class CustomerDTO {
-    @NotNull
-    @Max(value = 30)
-    private String name;
-
+public class CustomerLoginDTO {
     @NotNull
     private String password;
 
@@ -17,21 +13,12 @@ public class CustomerDTO {
     @Max(value = 40)
     private String email;
 
-    public CustomerDTO(String name, String email, String password) {
-        this.name = name;
+    public CustomerLoginDTO(String email, String password) {
         this.email = email;
         this.password = password;
     }
 
-    public CustomerDTO() {
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public CustomerLoginDTO() {
     }
 
     public String getEmail() {
