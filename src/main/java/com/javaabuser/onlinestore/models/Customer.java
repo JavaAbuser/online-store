@@ -5,6 +5,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -35,7 +36,7 @@ public class Customer {
             joinColumns = @JoinColumn(name = "customer_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
-    
+
     public Customer() {
     }
 
@@ -78,11 +79,11 @@ public class Customer {
         if (this == o) return true;
         if (!(o instanceof Customer)) return false;
         Customer customer = (Customer) o;
-        return id == customer.id && name.equals(customer.name) && password.equals(customer.password) && email.equals(customer.email);
+        return id == customer.id && name.equals(customer.name) && password.equals(customer.password) && email.equals(customer.email) && roles.equals(customer.roles);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, password, email);
+        return Objects.hash(id, name, password, email, roles);
     }
 }
