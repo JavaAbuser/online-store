@@ -54,6 +54,11 @@
 			<artifactId>hibernate-validator</artifactId>
 			<version>6.2.3.Final</version>
 		</dependency>
+		<dependency>
+			<groupId>com.guicedee.services</groupId>
+			<artifactId>sl4j</artifactId>
+			<version>1.0.13.5</version>
+		</dependency>
 	</dependencies>
 
 	<build>
