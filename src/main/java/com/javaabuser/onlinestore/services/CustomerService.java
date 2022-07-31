@@ -1,5 +1,6 @@
 package com.javaabuser.onlinestore.services;
 
+import com.javaabuser.onlinestore.exceptions.CustomerNotFoundException;
 import com.javaabuser.onlinestore.models.Customer;
 import com.javaabuser.onlinestore.repositories.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,14 @@ public class CustomerService {
 
     public Optional<Customer> findById(int customerId){
         return customerRepository.findById(customerId);
+    }
+
+    public Optional<Customer> findByEmail(String customerEmail){
+        Optional<Customer> customer = customerRepository.findByEmail(customerEmail);
+        if(customer.isEmpty()){
+            throw new CustomerNotFoundException();
+        }
+        return customer;
     }
 
     @Transactional
