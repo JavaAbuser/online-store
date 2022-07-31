@@ -1,7 +1,11 @@
 package com.javaabuser.onlinestore.models;
 
 import javax.persistence.*;
-import java.util.Objects;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotNull;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "customer")
@@ -11,14 +15,26 @@ public class Customer {
     @Column(name = "id")
     private int id;
 
+    @NotNull
+    @Max(value = 30)
     @Column(name = "name")
     private String name;
 
+    @NotNull
     @Column(name = "password")
     private String password;
 
+    @Email
+    @NotNull
+    @Max(value = 40)
     @Column(name = "email")
     private String email;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "customers_roles",
+            joinColumns = @JoinColumn(name = "customer_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
 
     public Customer() {
     }
