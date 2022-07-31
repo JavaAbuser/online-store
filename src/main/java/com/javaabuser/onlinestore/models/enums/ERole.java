@@ -1,6 +1,6 @@
 package com.javaabuser.onlinestore.models.enums;
 
-public enum Role {
+public enum ERole {
     CUSTOMER,
     SELLER,
     MODERATOR,
