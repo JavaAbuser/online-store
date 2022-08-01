@@ -45,4 +45,9 @@ public class JwtUtil {
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
     }
+
+    public ResponseCookie getCleanJwtCookie() {
+        ResponseCookie cookie = ResponseCookie.from(jwtCookie, null).path("/").build();
+        return cookie;
+    }
 }
