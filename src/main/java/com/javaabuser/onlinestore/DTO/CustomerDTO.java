@@ -1,11 +1,13 @@
 package com.javaabuser.onlinestore.DTO;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.javaabuser.onlinestore.models.Role;
 import com.javaabuser.onlinestore.util.View;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
+import java.util.Set;
 
 public class CustomerDTO {
     @JsonView(View.ViewForRegistration.class)
@@ -22,6 +24,15 @@ public class CustomerDTO {
     @NotNull
     @Max(value = 40)
     private String email;
+
+    private Set<Role> roles;
+
+    public CustomerDTO(String name, String password, String email, Set<Role> roles) {
+        this.name = name;
+        this.password = password;
+        this.email = email;
+        this.roles = roles;
+    }
 
     public CustomerDTO() {
     }
@@ -48,5 +59,13 @@ public class CustomerDTO {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }
