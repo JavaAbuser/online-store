@@ -37,6 +37,18 @@ public class CustomerDetails implements UserDetails {
         return authorities;
     }
 
+    public void addRole(Role role){
+        roles.add(role);
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
     @Override
     public String getPassword() {
         return customer.getPassword();
