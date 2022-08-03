@@ -1,7 +1,15 @@
 package com.javaabuser.onlinestore.payload;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotNull;
+
 public class AuthRequest {
+    @Email
+    @NotNull
+    @Max(value = 40)
     private String email;
+    @NotNull
     private String password;
 
     public AuthRequest(String email, String password) {
