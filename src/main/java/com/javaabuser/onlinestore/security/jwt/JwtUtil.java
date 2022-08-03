@@ -33,13 +33,13 @@ public class JwtUtil {
     }
 
     public ResponseCookie generateJwtCookie(CustomerDetails customerPrincipal) {
-        String jwt = generateTokenFromCustomerName(customerPrincipal.getUsername());
+        String jwt = generateTokenFromCustomerEmail(customerPrincipal.getUsername());
         return ResponseCookie.from(jwtCookie, jwt).path("/").httpOnly(true).build();
     }
 
-    public String generateTokenFromCustomerName(String customerName) {
+    public String generateTokenFromCustomerEmail(String customerEmail) {
         return Jwts.builder()
-                .setSubject(customerName)
+                .setSubject(customerEmail)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
