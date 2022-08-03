@@ -2,13 +2,12 @@ package com.javaabuser.onlinestore.security;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.javaabuser.onlinestore.models.Customer;
+import com.javaabuser.onlinestore.models.Role;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.*;
 
 public class CustomerDetails implements UserDetails {
     private static final long serialVersionUID = 1L;
@@ -18,7 +17,7 @@ public class CustomerDetails implements UserDetails {
     @JsonIgnore
     private String password;
     private String email;
-    private List<? extends GrantedAuthority> authorities;
+    private Set<Role> roles;
 
     public CustomerDetails (Customer customer) {
         this.customer = customer;
@@ -26,14 +25,16 @@ public class CustomerDetails implements UserDetails {
         this.name = customer.getName();
         this.password = customer.getPassword();
         this.email = customer.getEmail();
-        this.authorities = customer.getRoles().stream().map(
-                role -> new SimpleGrantedAuthority(role.getRole().name())
-        ).collect(Collectors.toList());
+        this.roles = customer.getRoles();
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        Set<SimpleGrantedAuthority> authorities = new HashSet<>();
+        for (Role role : roles) {
+            authorities.add(new SimpleGrantedAuthority(role.getRole().name()));
+        }
+        return authorities;
     }
 
     @Override
@@ -65,4 +66,21 @@ public class CustomerDetails implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
 }
