@@ -5,10 +5,12 @@ import com.javaabuser.onlinestore.models.enums.ERole;
 import com.javaabuser.onlinestore.repositories.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 @Service
+@Transactional(readOnly = true)
 public class RoleService {
     private final RoleRepository roleRepository;
 
@@ -17,11 +19,8 @@ public class RoleService {
         this.roleRepository = roleRepository;
     }
 
-    public Role findByName(ERole roleName){
-        Optional<Role> role = roleRepository.findByName(roleName);
-        if(role.isEmpty()){
-            return null;
-        }
-        return role.get();
+    public Optional<Role> findByRole(ERole roleName){
+        Optional<Role> role = roleRepository.findByRole(roleName);
+        return role;
     }
 }
