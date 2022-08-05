@@ -90,6 +90,6 @@ public class AuthController {
 
     @PostMapping("/registration")
     public ResponseEntity<HttpStatus> register(){
-
+        
     }
 }
