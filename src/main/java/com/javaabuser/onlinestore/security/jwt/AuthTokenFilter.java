@@ -18,14 +18,11 @@ import java.io.IOException;
 
 public class AuthTokenFilter extends OncePerRequestFilter {
 
-    private final CustomerDetailsService customerDetailsService;
-    private final JwtUtil jwtUtil;
+    @Autowired
+    private CustomerDetailsService customerDetailsService;
 
     @Autowired
-    public AuthTokenFilter(CustomerDetailsService customerDetailsService, JwtUtil jwtUtil) {
-        this.customerDetailsService = customerDetailsService;
-        this.jwtUtil = jwtUtil;
-    }
+    private JwtUtil jwtUtil;
 
     public AuthTokenFilter() {
     }
