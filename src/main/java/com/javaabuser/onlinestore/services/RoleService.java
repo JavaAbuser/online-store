@@ -20,7 +20,6 @@ public class RoleService {
     }
 
     public Optional<Role> findByRole(ERole roleName){
-        Optional<Role> role = roleRepository.findByRole(roleName);
-        return role;
+        return roleRepository.findByRole(roleName);
     }
 }
