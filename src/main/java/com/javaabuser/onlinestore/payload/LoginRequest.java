@@ -4,7 +4,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 
-public class AuthRequest {
+public class LoginRequest {
     @Email
     @NotNull
     @Max(value = 40)
@@ -12,12 +12,12 @@ public class AuthRequest {
     @NotNull
     private String password;
 
-    public AuthRequest(String email, String password) {
+    public LoginRequest(String email, String password) {
         this.email = email;
         this.password = password;
     }
 
-    public AuthRequest() {
+    public LoginRequest() {
     }
 
     public String getEmail() {
