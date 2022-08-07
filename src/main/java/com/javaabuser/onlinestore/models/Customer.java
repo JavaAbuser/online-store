@@ -1,12 +1,12 @@
 package com.javaabuser.onlinestore.models;
 
+import com.javaabuser.onlinestore.models.enums.ERole;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Table(name = "customer")
@@ -31,11 +31,8 @@ public class Customer {
     @Column(name = "email")
     private String email;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "customers_roles",
-            joinColumns = @JoinColumn(name = "customer_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles = new HashSet<>();
+    @OneToOne
+    private Role role;
 
     public Customer() {
     }
@@ -44,14 +41,7 @@ public class Customer {
         this.name = name;
         this.password = password;
         this.email = email;
-    }
-
-    public void addRole(Role role){
-        roles.add(role);
-    }
-
-    public void removeRole(Role role){
-        roles.remove(role);
+        role = new Role(ERole.CUSTOMER);
     }
 
     public int getId() {
@@ -82,12 +72,12 @@ public class Customer {
         this.email = email;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+    public Role getRole() {
+        return role;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     @Override
@@ -95,11 +85,11 @@ public class Customer {
         if (this == o) return true;
         if (!(o instanceof Customer)) return false;
         Customer customer = (Customer) o;
-        return id == customer.id && name.equals(customer.name) && password.equals(customer.password) && email.equals(customer.email) && roles.equals(customer.roles);
+        return id == customer.id && name.equals(customer.name) && password.equals(customer.password) && email.equals(customer.email) && role.equals(customer.role);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, password, email, roles);
+        return Objects.hash(id, name, password, email, role);
     }
 }
