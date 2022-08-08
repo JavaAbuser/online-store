@@ -34,6 +34,10 @@ public class CustomerService {
         return customer;
     }
 
+    public boolean existsCustomerByEmail(String customerEmail){
+        return customerRepository.existsCustomerByEmail(customerEmail);
+    }
+
     @Transactional
     public void save(Customer customer){
         
