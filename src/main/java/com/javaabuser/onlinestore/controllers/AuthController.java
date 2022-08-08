@@ -18,7 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,8 +26,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/customer")
@@ -50,7 +47,6 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody @Valid RegisterRequest registerRequest){
-
         if(customerService.existsCustomerByEmail(registerRequest.getEmail())){
             throw new CustomerAlreadyExistsException();
         }
@@ -62,47 +58,28 @@ public class AuthController {
         Role role = roleService.findByRole(ERole.CUSTOMER)
                 .orElseThrow(() -> new RoleNotFoundException("Role " + ERole.CUSTOMER.name() + " not found."));
 
-        customer.addRole(role);
+        customer.setRole(role);
         customerService.save(customer);
 
         return ResponseEntity.ok(customer);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Customer> authenticate(@RequestBody @Valid LoginRequest loginRequest){
+    public ResponseEntity<?> authenticate(@RequestBody @Valid LoginRequest loginRequest){
         Authentication authentication = authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getName(), loginRequest.getPassword()));
+                .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        CustomerDetails customerDetails = (CustomerDetails) authentication.getPrincipal();
-        ResponseCookie jwtCookie = jwtUtil.generateJwtCookie(customerDetails);
-        Set<String> rolesString = customerDetails.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toSet());
 
-//        Set<Role> rolesRole = new HashSet<>();
-//        for(String role : rolesString){
-//            switch (role){
-//                case "CUSTOMER":
-//                    rolesRole.add(new Role(ERole.CUSTOMER));
-//                    break;
-//                case "SELLER":
-//                    rolesRole.add(new Role(ERole.SELLER));
-//                    break;
-//                case "MODERATOR":
-//                    rolesRole.add(new Role(ERole.MODERATOR));
-//                    break;
-//                case "OWNER":
-//                    rolesRole.add(new Role(ERole.OWNER));
-//                    break;
-//            }
-//        }
-//
-//        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
-//                .body(new Customer(customerDetails.getName(),
-//                        customerDetails.getPassword(),
-//                        customerDetails.getEmail());
-//    }
+        CustomerDetails customerDetails = (CustomerDetails) authentication.getPrincipal();
+
+        ResponseCookie jwtCookie = jwtUtil.generateJwtCookie(customerDetails);
+
+        Role role = roleService.findByRole(ERole.CUSTOMER)
+                .orElseThrow(() -> new RoleNotFoundException("Role " + ERole.CUSTOMER.name() + " not found."));
+
+        return ResponseEntity.ok(jwtCookie);
+    }
 
     @PostMapping("/logout")
     public ResponseEntity<HttpStatus> logout(){
