@@ -17,7 +17,7 @@ public class CustomerDetails implements UserDetails {
     @JsonIgnore
     private String password;
     private String email;
-    private Set<Role> roles;
+    private Role role;
 
     public CustomerDetails (Customer customer) {
         this.customer = customer;
@@ -25,28 +25,23 @@ public class CustomerDetails implements UserDetails {
         this.name = customer.getName();
         this.password = customer.getPassword();
         this.email = customer.getEmail();
-        this.roles = customer.getRoles();
+        this.role = customer.getRole();
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<SimpleGrantedAuthority> authorities = new HashSet<>();
-        for (Role role : roles) {
-            authorities.add(new SimpleGrantedAuthority(role.getRole().name()));
-        }
+        authorities.add(new SimpleGrantedAuthority(role.getRole().name()));
+
         return authorities;
     }
 
-    public void addRole(Role role){
-        roles.add(role);
+    public Role getRole() {
+        return role;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setRole(Set<Role> roles) {
+        this.role = role;
     }
 
     @Override
