@@ -56,7 +56,7 @@ public class JwtUtil {
         }
         return Jwts.builder()
                 .setSubject(customerEmail)
-                .claim("roles", customer.get().getRoles().toString())
+                .claim("role", customer.get().getRole().toString())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
