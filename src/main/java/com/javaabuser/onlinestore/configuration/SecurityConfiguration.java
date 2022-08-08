@@ -29,11 +29,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests().antMatchers("/customer/register", "/customer/login").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .formLogin().loginPage("/customer/login")
-                .defaultSuccessUrl("/hello")
-                .failureUrl("/login?error");
+                .anyRequest().authenticated();
 
         http.addFilterBefore(authTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
