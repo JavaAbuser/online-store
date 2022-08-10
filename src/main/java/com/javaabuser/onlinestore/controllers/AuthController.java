@@ -1,6 +1,7 @@
 package com.javaabuser.onlinestore.controllers;
 
 import com.javaabuser.onlinestore.exceptions.CustomerAlreadyExistsException;
+import com.javaabuser.onlinestore.exceptions.InvalidInputException;
 import com.javaabuser.onlinestore.exceptions.RoleNotFoundException;
 import com.javaabuser.onlinestore.models.Customer;
 import com.javaabuser.onlinestore.models.Role;
@@ -20,6 +21,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,14 +48,25 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody @Valid RegisterRequest registerRequest){
+    public ResponseEntity<?> register(@RequestBody @Valid RegisterRequest registerRequest, BindingResult bindingResult){
+        if (bindingResult.hasErrors())
+        {
+            StringBuilder bindingErrorsMessage = new StringBuilder();
+
+            bindingResult
+                    .getFieldErrors()
+                    .forEach(field -> bindingErrorsMessage.append(field.getField()).append(": ").append(field.getDefaultMessage()));
+
+            throw new InvalidInputException(bindingErrorsMessage.toString());
+        }
+
         if(customerService.existsCustomerByEmail(registerRequest.getEmail())){
             throw new CustomerAlreadyExistsException();
         }
 
         Customer customer = new Customer(registerRequest.getName(),
-                registerRequest.getPassword(),
-                passwordEncoder.encode(registerRequest.getEmail()));
+                passwordEncoder.encode(registerRequest.getPassword()),
+                registerRequest.getEmail());
 
         Role role = roleService.findByRole(ERole.CUSTOMER)
                 .orElseThrow(() -> new RoleNotFoundException("Role " + ERole.CUSTOMER.name() + " not found."));
