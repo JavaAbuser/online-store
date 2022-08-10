@@ -4,8 +4,8 @@ import com.javaabuser.onlinestore.models.enums.ERole;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Objects;
 
 @Entity
@@ -17,7 +17,7 @@ public class Customer {
     private int id;
 
     @NotNull
-    @Max(value = 30)
+    @Size(max = 40)
     @Column(name = "name")
     private String name;
 
@@ -27,11 +27,11 @@ public class Customer {
 
     @Email
     @NotNull
-    @Max(value = 40)
+    @Size(max = 40)
     @Column(name = "email")
     private String email;
 
-    @OneToOne
+    @Transient
     private Role role;
 
     public Customer() {
