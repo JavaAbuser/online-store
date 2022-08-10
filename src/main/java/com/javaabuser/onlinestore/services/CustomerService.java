@@ -27,6 +27,6 @@ public class CustomerService {
 
     @Transactional
     public void save(Customer customer){
-        
+        customerRepository.save(customer);
     }
 }
