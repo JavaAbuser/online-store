@@ -17,7 +17,7 @@ public class Customer {
     private int id;
 
     @NotNull
-    @Size(max = 40)
+    @Size(max = 30)
     @Column(name = "name")
     private String name;
 
