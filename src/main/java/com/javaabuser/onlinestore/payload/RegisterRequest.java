@@ -1,12 +1,12 @@
 package com.javaabuser.onlinestore.payload;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 public class RegisterRequest {
     @NotNull
-    @Max(value = 30)
+    @Size(max = 30)
     private String name;
 
     @NotNull
@@ -14,7 +14,7 @@ public class RegisterRequest {
 
     @Email
     @NotNull
-    @Max(value = 40)
+    @Size(max = 40)
     private String email;
 
     public RegisterRequest(String name, String password, String email) {
