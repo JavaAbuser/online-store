@@ -3,6 +3,7 @@ package com.javaabuser.onlinestore.security;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.javaabuser.onlinestore.models.Customer;
 import com.javaabuser.onlinestore.models.Role;
+import com.javaabuser.onlinestore.models.enums.ERole;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,7 +26,7 @@ public class CustomerDetails implements UserDetails {
         this.name = customer.getName();
         this.password = customer.getPassword();
         this.email = customer.getEmail();
-        this.role = customer.getRole();
+        this.role = new Role(ERole.CUSTOMER);
     }
 
     @Override
@@ -40,7 +41,7 @@ public class CustomerDetails implements UserDetails {
         return role;
     }
 
-    public void setRole(Set<Role> roles) {
+    public void setRole(Role role) {
         this.role = role;
     }
 
