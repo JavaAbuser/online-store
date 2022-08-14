@@ -41,7 +41,7 @@ public class Customer {
         this.name = name;
         this.password = password;
         this.email = email;
-        role = new Role(ERole.CUSTOMER);
+        this.role = new Role(ERole.CUSTOMER);
     }
 
     public int getId() {
