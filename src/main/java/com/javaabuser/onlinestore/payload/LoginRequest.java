@@ -9,6 +9,7 @@ public class LoginRequest {
     @NotNull
     @Max(value = 40)
     private String email;
+
     @NotNull
     private String password;
 
