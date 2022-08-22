@@ -1,0 +1,3 @@
+databaseChangeLog:
+  - include:
+      file: liquibase/db/changelog/changeset/create-customer-table.yaml
