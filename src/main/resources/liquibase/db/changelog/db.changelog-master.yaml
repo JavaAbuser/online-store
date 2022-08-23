@@ -1,3 +1,5 @@
 databaseChangeLog:
   - include:
       file: liquibase/db/changelog/changeset/create-customer-table.yaml
+  - include:
+      file: liquibase/db/changelog/changeset/create-category-table.yaml
