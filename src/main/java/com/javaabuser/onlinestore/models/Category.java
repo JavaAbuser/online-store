@@ -11,15 +11,15 @@ public class Category {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "title")
+    private String title;
 
     public Category() {
     }
 
     public Category(int id, String name) {
         this.id = id;
-        this.name = name;
+        this.title = title;
     }
 
     public int getId() {
@@ -27,11 +27,11 @@ public class Category {
     }
 
     public String getName() {
-        return name;
+        return title;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.title = title;
     }
 
     @Override
@@ -39,11 +39,11 @@ public class Category {
         if (this == o) return true;
         if (!(o instanceof Category)) return false;
         Category category = (Category) o;
-        return id == category.id && name.equals(category.name);
+        return id == category.id && title.equals(category.title);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name);
+        return Objects.hash(id, title);
     }
 }
