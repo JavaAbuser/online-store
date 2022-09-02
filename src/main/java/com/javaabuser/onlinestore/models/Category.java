@@ -1,6 +1,7 @@
 package com.javaabuser.onlinestore.models;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -14,6 +15,10 @@ public class Category {
     @Column(name = "title")
     private String title;
 
+    @OneToMany(fetch = FetchType.LAZY,
+               mappedBy = "category")
+    private List<Product> products;
+
     public Category() {
     }
 
@@ -22,16 +27,24 @@ public class Category {
         this.title = title;
     }
 
-    public int getId() {
-        return id;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getName() {
+    public String getTitle() {
         return title;
     }
 
-    public void setName(String name) {
+    public void setTitle(String title) {
         this.title = title;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 
     @Override
