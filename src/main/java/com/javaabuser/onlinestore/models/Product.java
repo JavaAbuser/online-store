@@ -9,12 +9,20 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
+
     @Column(name = "title")
     private String title;
+
     @Column(name = "price")
     private int price;
+
     @Column(name = "description")
     private String description;
+
+    @ManyToOne(cascade = CascadeType.PERSIST,
+               fetch = FetchType.EAGER)
+    @JoinColumn(name = "category_id")
+    private Category category;
 
     public int getId() {
         return id;
