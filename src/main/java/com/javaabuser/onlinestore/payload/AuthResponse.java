@@ -1,4 +1,4 @@
-package com.javaabuser.onlinestore.payload;
+package com.javaabuser.onlinestore.auth.payload;
 
 public class AuthResponse {
     private String email;
